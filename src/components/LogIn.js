@@ -7,6 +7,7 @@ export default function Login() {
   const [users, setUsers] = useState([]);
   const [statusMessages, setStatusMessages] = useState({});
   const [show, setShow] = useState(false);
+  const [form, setForm] = useState(true);
 
   const messages = {
     username: "Invalid username. Try again.",
@@ -31,6 +32,7 @@ export default function Login() {
       setUsername("");
       setPassword("");
       setShow(true);
+      setForm(false)
     } else {
       setStatusMessages({ message: messages.username });
     }
@@ -61,6 +63,7 @@ export default function Login() {
     setPassword("");
     setStatusMessages({});
     setShow(false);
+    setForm(true)
   };
 
   const renderLogOut = () =>
@@ -73,6 +76,14 @@ export default function Login() {
   return (
     <div className="container">
       <h1 className="title">Sign in</h1>
+      {formLogIn()}
+      {renderStatusMessage()}
+      {renderLogOut()}
+    </div>
+  );
+
+  function formLogIn() {
+    return form &&
       <form className="form" onSubmit={handleSubmit}>
         <div className="input-container floating-label-content">
           <input
@@ -81,8 +92,7 @@ export default function Login() {
             required
             type="text"
             value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
+            onChange={(e) => setUsername(e.target.value)} />
           <label className="label floating-label">Username or email</label>
         </div>
         <div className="input-container floating-label-content">
@@ -93,17 +103,12 @@ export default function Login() {
             minLength="6"
             type="password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
+            onChange={(e) => setPassword(e.target.value)} />
           <label className="label label floating-label">Password</label>
         </div>
         <div className="input-container">
           <button type="submit">Login</button>
         </div>
-      </form>
-      {renderStatusMessage()}
-      {renderLogOut()}
-      {/* <button onClick={handleLogOut}>Log out</button> */}
-    </div>
-  );
+      </form>;
+  }
 }
