@@ -6,8 +6,10 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [users, setUsers] = useState([]);
   const [statusMessages, setStatusMessages] = useState({});
-  const [show, setShow] = useState(false);
-  const [form, setForm] = useState(true);
+  const [show, setShow] = useState({
+    form: true,
+    logOut: false
+  });
 
   const messages = {
     username: "Invalid username. Try again.",
@@ -31,8 +33,7 @@ export default function Login() {
       setStatusMessages({ message: messages.login, name: usercheck.name });
       setUsername("");
       setPassword("");
-      setShow(true);
-      setForm(false)
+      setShow({ logOut: true, form: false });
     } else {
       setStatusMessages({ message: messages.username });
     }
@@ -62,12 +63,11 @@ export default function Login() {
     setUsername("");
     setPassword("");
     setStatusMessages({});
-    setShow(false);
-    setForm(true)
+    setShow({ form: true, logOut: false });
   };
 
   const renderLogOut = () =>
-    show && (
+    show.logOut && (
       <button className="visible" onClick={handleLogOut}>
         Log out
       </button>
@@ -83,7 +83,7 @@ export default function Login() {
   );
 
   function formLogIn() {
-    return form &&
+    return show.form &&
       <form className="form" onSubmit={handleSubmit}>
         <div className="input-container floating-label-content">
           <input
