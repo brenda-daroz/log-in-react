@@ -2,8 +2,12 @@ import React, { useState, useEffect } from "react";
 import handleUsers from "../services/handleUsers";
 
 export default function Login() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  // const [username, setUsername] = useState("");
+  // const [password, setPassword] = useState("");
+  const [user, setUser] = useState({
+    username: "",
+    password: ""
+  })
   const [users, setUsers] = useState([]);
   const [statusMessages, setStatusMessages] = useState({});
   const [show, setShow] = useState({
@@ -25,14 +29,15 @@ export default function Login() {
 
   const checkUser = () => {
     const usercheck = users.find(
-      (user) =>
-        user.username.toLowerCase() === username.toLowerCase() ||
-        user.email.toLowerCase() === username.toLowerCase()
+      (x) =>
+        x.username.toLowerCase() === user.username.toLowerCase() ||
+        x.email.toLowerCase() === user.username.toLowerCase()
     );
     if (usercheck) {
       setStatusMessages({ message: messages.login, name: usercheck.name });
-      setUsername("");
-      setPassword("");
+      // setUsername("");
+      // setPassword("");
+      setUser({ username: "", password: "" })
       setShow({ logOut: true, form: false });
     } else {
       setStatusMessages({ message: messages.username });
@@ -60,8 +65,9 @@ export default function Login() {
 
   const handleLogOut = (e) => {
     e.preventDefault();
-    setUsername("");
-    setPassword("");
+    setUser({ username: "", password: "" })
+    // setUsername("");
+    // setPassword("");
     setStatusMessages({});
     setShow({ form: true, logOut: false });
   };
@@ -91,8 +97,8 @@ export default function Login() {
             placeholder=" "
             required
             type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)} />
+            value={user.username}
+            onChange={(e) => setUser({ ...user, username: e.target.value })} />
           <label className="label floating-label">Username or email</label>
         </div>
         <div className="input-container floating-label-content">
@@ -102,8 +108,8 @@ export default function Login() {
             required
             minLength="6"
             type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)} />
+            value={user.password}
+            onChange={(e) => setUser({ ...user, password: e.target.value })} />
           <label className="label label floating-label">Password</label>
         </div>
         <div className="input-container">
