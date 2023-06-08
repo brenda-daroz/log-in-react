@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import handleUsers from "../services/handleUsers";
+import { useNavigate } from "react-router-dom";
 
-export default function Login() {
-  // const [username, setUsername] = useState("");
-  // const [password, setPassword] = useState("");
+export default function Login({setAuth}) {
+  const navigate = useNavigate();
   const [user, setUser] = useState({
     username: "",
     password: ""
@@ -14,6 +14,7 @@ export default function Login() {
     form: true,
     logOut: false
   });
+
 
   const messages = {
     username: "Invalid username. Try again.",
@@ -34,13 +35,14 @@ export default function Login() {
         x.email.toLowerCase() === user.username.toLowerCase()
     );
     if (usercheck) {
-      setStatusMessages({ message: messages.login, name: usercheck.name });
-      // setUsername("");
-      // setPassword("");
-      setUser({ username: "", password: "" })
-      setShow({ logOut: true, form: false });
+      // setStatusMessages({ message: messages.login, name: usercheck.name });
+      // setUser({ username: "", password: "" })
+      // setShow({ logOut: true, form: false });
+      setAuth(usercheck);
+      navigate("/profile", { replace: true });
     } else {
       setStatusMessages({ message: messages.username });
+
     }
     console.log(usercheck);
   };
